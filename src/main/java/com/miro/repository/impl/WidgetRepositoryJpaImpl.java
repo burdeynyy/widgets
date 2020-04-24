@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -51,6 +51,7 @@ public class WidgetRepositoryJpaImpl implements WidgetRepository {
         if (!target.getZ().equals(source.getZ())) {
             handleZIndex(source);
             target.setZ(source.getZ());
+            widgetJpaRepository.saveAndFlush(target);
         }
 
         return target;
@@ -76,6 +77,7 @@ public class WidgetRepositoryJpaImpl implements WidgetRepository {
     }
 
     private void handleZIndex(Widget widget) {
+        widgetJpaRepository.selectExistingForUpdate();
         if (widget.getZ() != null) {
             if (widgetJpaRepository.existsByZ(widget.getZ())) {
                 widgetJpaRepository.shiftByZIndex(widget.getZ());

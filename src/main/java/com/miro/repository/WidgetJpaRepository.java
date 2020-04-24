@@ -4,10 +4,14 @@ import com.miro.entity.Widget;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.LockModeType;
+import java.util.List;
 
 /**
  * JPA Repository for work with widgets.
@@ -25,6 +29,10 @@ public interface WidgetJpaRepository extends JpaRepository<Widget, Integer> {
 
     @Query("SELECT COALESCE(MAX(widget.z) + 1, 0) FROM Widget widget")
     int getNextZIndex();
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT id FROM Widget")
+    List<Long> selectExistingForUpdate();
 
     boolean existsByZ(Integer z);
 

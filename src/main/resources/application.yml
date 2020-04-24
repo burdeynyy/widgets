@@ -11,7 +11,11 @@ spring:
     console:
       enabled: true
       path: /h2
-
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+    org.hibernate.type: trace
 app:
-  default-rate-limit: 100
-  storage: native  # native | in-memory # native (default) - native data storage, in-memory - sql based storage
+  default-rate-limit: 10000
+  storage: in-memory  # native | in-memory # native (default) - native data storage, in-memory - sql based storage

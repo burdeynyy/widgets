@@ -101,11 +101,9 @@ public class WidgetRepositoryNativeImpl implements WidgetRepository {
         List<Widget> values = new ArrayList<>(moreThanPassedZ.values());
         for (int i = values.size() - 1; i >= 0; i--) {
             Widget removed = uniqueZIndex.remove(values.get(i).getZ());
-            if (removed != null) {
-                Integer currentZ = removed.getZ();
-                removed.setZ(currentZ + 1);
-                uniqueZIndex.put(removed.getZ(), removed);
-            }
+            Integer currentZ = removed.getZ();
+            removed.setZ(currentZ + 1);
+            uniqueZIndex.put(removed.getZ(), removed);
         }
     }
 

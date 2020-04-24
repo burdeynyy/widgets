@@ -32,8 +32,8 @@ public class RateLimiterServiceImpl implements RateLimiterService {
     private static final Duration DURATION = Duration.ofMinutes(1);
 
     private final ApplicationProperties applicationProperties;
-    final private Map<HandlerMethod, LocalBucket> buckets = new HashMap<>();
-    final private Map<String, HandlerMethod> handlers = new HashMap<>();
+    private final Map<HandlerMethod, LocalBucket> buckets = new HashMap<>();
+    private final Map<String, HandlerMethod> handlers = new HashMap<>();
 
     void registerApi(HandlerMethod handlerMethod) {
         Integer defaultRateLimit = applicationProperties.getDefaultRateLimit();
